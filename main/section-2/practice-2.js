@@ -1,25 +1,15 @@
 'use strict';
 
-function find(collection, ch) {
-    for (let item of collection) {
-        if (item.key === ch) {
-            return item;
-        }
-    }
-
-    return null;
-}
-
 function summarize(collection) {
     let result = [];
-    for (let item of collection) {
-        let obj = find(result, item)
+    collection.filter(function (item) {
+        let obj = result.find((n) => n.key === item);
         if (obj) {
             obj.count++;
         } else {
-            result.push({key: item, count: 1});
+            result.push({key:item,count:1});
         }
-    }
+    });
     return result;
 }
 
@@ -36,14 +26,14 @@ function push(result, key, count) {
 
 function expand(collection) {
     let result = [];
-    for (let item of collection) {
+    collection.filter(function (item) {
         if (item.length === 1) {
             result.push(item);
         } else {
             let {key, count} = split(item);
             push(result, key, count);
         }
-    }
+    });
     return result;
 }
 
